@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord.ext.commands import command as Command
-
 from utils.utils import Utils
 from db.firebase import DBConnection
 
@@ -19,9 +18,11 @@ class Corruption(commands.Cog):
 
     @Command(
         name='invasion',
-        description=f"Announce Corruption Events\n\nlocation - Use location full name or abbrevation\ndate - Strictly use MM/DD format. Example: 11/12\ntime - 24hr EST time only. Example: 21:00",
-        usage='<location> <MM/DD> <24hr EST time>'
-        )
+        description="Announce Corruption Invasion Events",
+        help=f"location - Use location full name or abbrevation\ndate - Strictly use MM/DD format. Example: 11/12\ntime - 24hr EST time only. Example: 21:00\n\nSample: --invasion Brightwood 11/30 21:00",
+        usage='<location> <MM/DD> <24hr EST time>',
+        aliases=['i', 'inv'])
+    @commands.has_any_role('Veteran', 'Officer', 'Guildmaster', 'Bot Master')
     async def invasion(self, ctx, *arg):
         user = await self.bot.fetch_user(ctx.author.id)
         date = arg[-2] + '/' + str(datetime.now().year)
