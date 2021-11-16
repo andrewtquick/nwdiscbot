@@ -1,5 +1,6 @@
 import nextcord
 import os
+from cogs.tasks import BotTasks
 from datetime import datetime
 from nextcord.ext import commands
 from db.firebase import DBConnection
@@ -9,11 +10,14 @@ class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.nwdb = DBConnection()
+        self.tasks = BotTasks(bot)
         self.ANN_CHANNEL = int(os.getenv('ANN_CHANNEL'))
 
     @commands.Cog.listener()
     async def on_ready(self):
         print('NWBot online.')
+        await self.bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='--help'))
+        self.tasks.getEvents.start()
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):

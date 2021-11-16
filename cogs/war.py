@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord.ext.commands import command as Command
-
 from db.firebase import DBConnection
 from utils.utils import Utils
 
@@ -19,9 +18,11 @@ class War(commands.Cog):
 
     @Command(
         name='war',
-        description="Announce Upcoming War Events\n\nlocation - Use location full name or abbrevation\ndate - Strictly use MM/DD format. Example: 11/12\ntime - 24hr EST time only. Example: 21:00",
-        usage='<location> <MM/DD> <24hr EST time>'
-        )
+        description="Announce Upcoming War Events",
+        help="location - Use location full name or abbrevation\ndate - Strictly use MM/DD format. Example: 11/12\ntime - 24hr EST time only. Example: 21:00\n\nSample: --war Brightwood 11/30 21:00",
+        usage='<location> <MM/DD> <24hr EST time>',
+        aliases=['w', 'War'])
+    @commands.has_any_role('Veteran', 'Officer', 'Guildmaster', 'Bot Master')
     async def war(self, ctx, *arg):
         user = await self.bot.fetch_user(ctx.author.id)
         date = arg[-2] + '/' + str(datetime.now().year)
@@ -48,7 +49,7 @@ class War(commands.Cog):
             else:
                 await ctx.send(f"{user.mention} -> Something went wrong. Please use `--help war` for usage help.")
         else:
-            await ctx.send(f"{user.mention} -> Can't create an event for a date and time in the past. Please use `--help invasion` for usage help.")
+            await ctx.send(f"{user.mention} -> Can't create an event for a date and time in the past. Please use `--help war` for usage help.")
 
 
 def setup(bot):

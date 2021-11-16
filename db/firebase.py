@@ -57,13 +57,11 @@ class DBConnection():
     
     def get_attendee(self, msg):
         ''' Fetches attendees for an event '''
-        print('Getting attendees...')
         get_attendees = self.nwdb.child('event').child(str(msg))
         fetch_data = get_attendees.get()
         if 'None' in fetch_data['attendees']:
             return ['None']
         else:
-            print('Found attendees...')
             attendees = [member for member in fetch_data['attendees']]
             return attendees
 
