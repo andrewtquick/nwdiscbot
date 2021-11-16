@@ -1,3 +1,4 @@
+import nextcord
 from datetime import datetime, timedelta
 
 class Utils(object):
@@ -35,3 +36,25 @@ class Utils(object):
             return True
         else:
             return False
+
+    def complete_embed(self, event_type, loc):
+
+        if event_type == 'cor':
+            completed_embed = nextcord.Embed(
+                title="Corruption Event has started!!",
+                description=f"Don't miss out on the action!",
+                colour=nextcord.Colour.green()
+                )
+            completed_embed.set_thumbnail(url='https://i.imgur.com/gbsKvaS.png')
+        else:
+            completed_embed = nextcord.Embed(
+                title="Company War Event has started!!",
+                description=f"Don't miss out on the action!",
+                colour=nextcord.Colour.green()
+                )
+            completed_embed.set_thumbnail(url='https://i.imgur.com/9XLDmCH.png')
+
+        completed_embed.add_field(name='Location', value=f'{loc}', inline=False)
+        completed_embed.add_field(name='Notifications', value='If you signed up, you should have received a notification via DM.', inline=False)
+        
+        return completed_embed
